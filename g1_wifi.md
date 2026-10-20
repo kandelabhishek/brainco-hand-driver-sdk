@@ -1,4 +1,4 @@
-### Steps to connect g1 to wifi
+### 🛜Steps to connect g1 to wifi
 
 #check all the connections
 ```
@@ -15,10 +15,13 @@ sudo nmcli connection down "Hotspot_Name"
 ```
 nmcli device wifi list
 ```
+<img src="images/wifi_list.png"  width="500">
+
+
 #connect to the wifi 
 ```
 nmcli device wifi connect {WIFI_NAME} password {PASSWORD}
 ```
 
-###The G1 cannot connect to WPA3. So, the wifi must be WPA2. 
+###⚠️Note:The G1 cannot connect to WPA3. So, the wifi must be WPA2. 
 
