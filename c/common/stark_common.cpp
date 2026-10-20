@@ -213,68 +213,17 @@ const char* get_protocol_name_str(uint8_t protocol) {
     }
 }
 
-#ifdef __linux__
-#include <glob.h>
-#include <stdlib.h>
-/**
- * Explicitly probe serial device paths. Some hosts (e.g. Unitree G1) expose
- * the hand as /dev/ttyACM* (CDC-ACM) which the SDK's default scan may skip.
- * STARK_PORT env var forces a specific port.
- */
-static CDetectedDeviceList* probe_serial_paths(void) {
-    const char* forced = getenv("STARK_PORT");
-    if (forced && forced[0]) {
-        printf("[INFO] Probing STARK_PORT=%s\n", forced);
-        CDetectedDeviceList* l = stark_auto_detect(false, forced, STARK_PROTOCOL_TYPE_AUTO);
-        if (l && l->count > 0) return l;
-        if (l) free_detected_device_list(l);
-        return NULL;
-    }
-
-    const char* patterns[] = {"/dev/ttyCH343USB*", "/dev/ttyACM*", "/dev/ttyUSB*"};
-    for (size_t p = 0; p < sizeof(patterns) / sizeof(patterns[0]); p++) {
-        glob_t g;
-        if (glob(patterns[p], 0, NULL, &g) != 0) continue;
-        for (size_t i = 0; i < g.gl_pathc; i++) {
-            printf("[INFO] Probing %s ...\n", g.gl_pathv[i]);
-            CDetectedDeviceList* l = stark_auto_detect(false, g.gl_pathv[i], STARK_PROTOCOL_TYPE_AUTO);
-            if (l && l->count > 0) {
-                globfree(&g);
-                return l;
-            }
-            if (l) free_detected_device_list(l);
-        }
-        globfree(&g);
-    }
-    return NULL;
-}
-#endif
-
 bool auto_detect_and_init(DeviceContext* ctx, bool require_touch) {
     printf("[INFO] Auto-detecting devices...\n");
 
-    CDetectedDeviceList* device_list = NULL;
-#ifdef __linux__
-    if (getenv("STARK_PORT") == NULL)
-#endif
-    device_list = stark_auto_detect(
+    CDetectedDeviceList* device_list = stark_auto_detect(
         false,   // scan_all: find all devices
         NULL,   // port: scan all ports
         STARK_PROTOCOL_TYPE_AUTO  // protocol: auto-detect all protocols
     );
 
-#ifdef __linux__
-    if (device_list == NULL || device_list->count == 0) {
-        if (device_list) free_detected_device_list(device_list);
-        printf("[INFO] Default scan found nothing, probing /dev/ttyACM* and /dev/ttyUSB*...\n");
-        device_list = probe_serial_paths();
-    }
-#endif
-
     if (device_list == NULL || device_list->count == 0) {
         printf("[ERROR] No devices found\n");
-        printf("[TIP] Check: ls -l /dev/ttyACM* /dev/ttyUSB*  and permissions (dialout group)\n");
-        printf("[TIP] Or specify manually: -m /dev/ttyACM0 460800 127\n");
         if (device_list) free_detected_device_list(device_list);
         return false;
     }
@@ -835,9 +784,6 @@ void print_init_usage(const char* prog_name) {
     printf("Examples:\n");
     printf("  %s                           # Auto-detect\n", prog_name);
     printf("  %s -m /dev/ttyUSB0 460800 1  # Modbus\n", prog_name);
-    printf("  %s -m /dev/ttyCH343USB0 460800 126  # G1 left hand (WCH ch343 driver)\n", prog_name);
-    printf("  %s -m /dev/ttyCH343USB1 460800 127  # G1 right hand (WCH ch343 driver)\n", prog_name);
-    printf("  STARK_PORT=/dev/ttyACM0 %s     # Auto-detect on a specific port\n", prog_name);
     printf("  %s -b can0 1                 # SocketCAN (SDK built-in)\n", prog_name);
     printf("  %s -t 5 -b can0 1            # Override hw type + init\n", prog_name);
 }

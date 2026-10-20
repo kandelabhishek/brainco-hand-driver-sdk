@@ -47,12 +47,7 @@ else ifeq ($(OS),Windows_NT)
     EXE_EXT := .exe
 else
     OS := linux
-    UNAME_M := $(shell uname -m)
-    ifeq ($(UNAME_M),aarch64)
-        LIB_SUBDIR := shared/linux-arm64
-    else
-        LIB_SUBDIR := shared/linux
-    endif
+    LIB_SUBDIR := shared/linux
     PLATFORM_LIBS := -lpthread
     RPATH_FLAG = -Wl,-rpath,$(LIB_DIR):/usr/local/lib:/usr/lib
     RUN_ENV = LD_LIBRARY_PATH=$(LIB_DIR):/usr/local/lib:$$LD_LIBRARY_PATH

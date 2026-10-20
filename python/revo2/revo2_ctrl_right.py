@@ -4,8 +4,7 @@ import time
 from revo2_utils import *
 
 SLAVE_ID = 0x7f  # Right hand
-# Usage: python revo2_ctrl_right.py [/dev/ttyACM1]  (or set REVO2_RIGHT_PORT)
-PORT = sys.argv[1] if len(sys.argv) > 1 else resolve_serial_port("/dev/ttyUSB1", 1, "REVO2_RIGHT_PORT")
+PORT = "/dev/ttyUSB1" # Replace with actual serial port name
 BAUDRATE = libstark.Baudrate.Baud460800
 
 async def main():

@@ -13,11 +13,8 @@ import time
 from revo2_utils import *
 from utils import setup_shutdown_event
 
-# Usage: python revo2_ctrl_dual.py [LEFT_PORT RIGHT_PORT]
-#   e.g. python revo2_ctrl_dual.py /dev/ttyACM0 /dev/ttyACM1
-#   or set REVO2_LEFT_PORT / REVO2_RIGHT_PORT
-LEFT_PORT = sys.argv[1] if len(sys.argv) > 1 else resolve_serial_port("/dev/ttyUSB0", 0, "REVO2_LEFT_PORT")
-RIGHT_PORT = sys.argv[2] if len(sys.argv) > 2 else resolve_serial_port("/dev/ttyUSB1", 1, "REVO2_RIGHT_PORT")
+LEFT_PORT = "/dev/ttyUSB0" # Replace with actual serial port name
+RIGHT_PORT = "/dev/ttyUSB1" # Replace with actual serial port name
 LEFT_ID = 0x7e
 RIGHT_ID = 0x7f
 BAUDRATE = libstark.Baudrate.Baud460800

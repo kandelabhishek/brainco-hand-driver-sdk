@@ -24,7 +24,7 @@ libstark.init_logging()
 # Export for `from revo2_utils import *`
 __all__ = [
     'logger', 'libstark', 'int_to_baudrate', 'modbus_open',
-    'open_modbus_revo2', 'get_stark_port_name', 'resolve_serial_port',
+    'open_modbus_revo2', 'get_stark_port_name',
     'is_positions_open', 'is_positions_closed',
     'init_cosine_trajectory', 'trajectory_control_task',
 ]
@@ -119,31 +119,6 @@ def get_stark_port_name():
     port_name = ports_json[0]["port_name"]
     logger.info(f"Using port: {port_name}")
     return port_name
-
-
-def resolve_serial_port(preferred=None, index=0, env_var=None):
-    """
-    Resolve a usable serial port path.
-
-    Priority:
-      1. Environment variable `env_var` (e.g. REVO2_LEFT_PORT=/dev/ttyACM0)
-      2. `preferred` if that device exists
-      3. The `index`-th device among /dev/ttyUSB* then /dev/ttyACM*
-         (Unitree G1 exposes the BrainCo hand as /dev/ttyACM*)
-    """
-    import glob
-
-    if env_var and os.environ.get(env_var):
-        return os.environ[env_var]
-    if preferred and os.path.exists(preferred):
-        return preferred
-    candidates = sorted(glob.glob("/dev/ttyUSB*")) + sorted(glob.glob("/dev/ttyACM*"))
-    if index < len(candidates):
-        port = candidates[index]
-        logger.info(f"Using serial port: {port} (candidates: {candidates})")
-        return port
-    logger.error(f"No serial port found for index {index}. Candidates: {candidates}")
-    return preferred
 
 def is_positions_open(status: libstark.MotorStatusData) -> bool:
     """
