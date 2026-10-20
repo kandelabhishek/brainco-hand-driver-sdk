@@ -11,7 +11,7 @@
 ## 1.clone the sdk
 
 ```bash
-git clone https://github.com/BrainCoTech/brainco-hand-sdk.git
+git clone https://github.com/kandelabhishek/brainco-hand-driver-sdk.git
 ```
 ---
 
