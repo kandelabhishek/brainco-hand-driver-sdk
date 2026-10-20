@@ -73,6 +73,8 @@ ls /dev/ttyCH343USB*
 ## Step 5 — Build the program
 
 ```bash
+cd ~/brainco-hand-build-sdk
+./download-lib.sh
 cd ~/brainco-hand-build-sdk/c/demo
 make clean
 make
