@@ -9,6 +9,8 @@ nmcli connection show
 ```
 sudo nmcli connection down "Hotspot_Name"
 ```
+<img src="images/Screenshot from 2026-09-25 13-39-42.png"  width="500">
+
 #Scan for the wifi
 ```
 nmcli device wifi list
