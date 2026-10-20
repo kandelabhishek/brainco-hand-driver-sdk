@@ -11,7 +11,7 @@
 ## 1.clone the sdk
 
 ```bash
-git clone https://github.com/kandelabhishek/brainco-hand-driver-sdk.git
+git clone https://github.com/BrainCoTech/brainco-hand-sdk.git
 ```
 ---
 
@@ -27,10 +27,20 @@ make
 ```bash
 cd ~/brainco-hand-driver-sdk/tools
 git clone https://github.com/WCHSoftGroup/ch343ser_linux.git
+
+cd ch343ser_linux/driver
+make
 ```
+If you dont have gcc if it shows that its missing
+
+```
+sudo apt update && sudo apt install build-essential -y
+```
+
+
 ---
 
-### 3. Install it (so it loads every boot)
+### 3.build it
 
 ```bash
 sudo make load
@@ -39,16 +49,10 @@ sudo make install
 
 ### 3.1 Stop the old driver from taking the hand
 
-```bash
-sudo rmmod cdc_acm
-echo "blacklist cdc_acm" | sudo tee /etc/modprobe.d/blacklist-cdc_acm.conf
-```
 
-> If it says `Module cdc_acm is in use`, **unplug the hand cable first**, then run it again.
+### Restart the g1
 
-### 3.2 Unplug the hand adapter, wait 3 seconds, plug it back in
-
-### 3.3 Check it worked
+### 3.3 Check if it worked
 
 ```bash
 ls /dev/ttyCH343USB*
@@ -64,25 +68,12 @@ ls /dev/ttyCH343USB*
 >If you cant see the abouve output then restart the robot
 ---
 
-## Step 4 — Give yourself permission
-
-```bash
-sudo usermod -aG dialout $USER
-```
-
-Then **log out and SSH back in**:
-
-```bash
-exit
-ssh unitree@192.168.123.164
-```
-
 ---
 
 ## Step 5 — Build the program
 
 ```bash
-cd ~/brainco-hand-sdk/c/demo
+cd ~/brainco-hand-build-sdk/c/demo
 make clean
 make
 ```
