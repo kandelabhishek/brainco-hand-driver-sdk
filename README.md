@@ -22,15 +22,7 @@ ls ~/brainco-hand-driver-sdk/tools/ch343ser_linux/driver
 cd ~/brainco-hand-driver-sdk/tools/ch343ser_linux/driver
 make
 ```
-#you can download the driver seperately from the link below
 
-```bash
-cd ~/brainco-hand-driver-sdk/tools
-git clone https://github.com/WCHSoftGroup/ch343ser_linux.git
-
-cd ch343ser_linux/driver
-make
-```
 If you dont have gcc if it shows that its missing
 
 ```
@@ -47,12 +39,9 @@ sudo make load
 sudo make install
 ```
 
-### 3.1 Stop the old driver from taking the hand
-
-
 ### Restart the g1
 
-### 3.3 Check if it worked
+### 3.1 Check if it worked
 
 ```bash
 ls /dev/ttyCH343USB*
@@ -73,34 +62,15 @@ ls /dev/ttyCH343USB*
 ## Step 5 — Build the program
 
 ```bash
-cd ~/brainco-hand-build-sdk
+cd ~/brainco-hand-driver-sdk/
 ./download-lib.sh
-cd ~/brainco-hand-build-sdk/c/demo
+cd ~/brainco-hand-driver-sdk/c/
 make clean
 make
 ```
 ---
 
 ## Step 6 — Find which port is which hand
-
-```bash
-cd ~/brainco-hand-driver-sdk/c/demo
-for p in /dev/ttyCH343USB0 /dev/ttyCH343USB1; do
-  for id in 126 127; do
-    echo "== $p id=$id"
-    sudo timeout 6 ./hand_demo.exe -m $p 460800 $id 2>&1 | grep -E "Device:|Failed to get" | head -1
-  done
-done
-```
-
-Look for lines that say `Device: Revo2 ...`:
-
-```
-== /dev/ttyCH343USB0 id=126
-  Device: Revo2 Touch (Capacitive), SN: BCXTL...   ← LEFT hand ✅
-== /dev/ttyCH343USB1 id=127
-  Device: Revo2 Touch (Capacitive), SN: BCXTR...   ← RIGHT hand ✅
-```
 
 Usually:
 
@@ -150,24 +120,16 @@ sudo ./hand_demo.exe -m /dev/ttyCH343USB1 460800 127 0
 |---|---|
 | Only `/dev/ttyACM0`, no `ttyCH343USB` | Driver not active → redo **Step 3**, then unplug/replug |
 | `timeout` / `Failed to get device info` | Wrong ID → swap `126` ↔ `127` |
-| Command hangs, nothing happens | You're on `ttyACM` → install driver (**Step 3**) |
 | `Failed to open Modbus port` | Wrong port, or you're on your **laptop** not the G1 (check prompt says `unitree@`) |
 | `skipping incompatible libbc_stark_sdk.so` | Re-copy the full SDK from laptop (**Step 1**) |
 | `auto_detect.exe: No such file` | Build failed → redo **Step 5** and read the error |
 | `Failed to create log file: Permission denied` | Run with `sudo` |
 | `make` fails in Step 3.1 | Kernel headers missing → ask Unitree for L4T headers |
-| Hands stop working after reboot | Redo **Step 3.2** and **3.3** |
 | Hand LED is off | Turn on the robot fully; check the cable |
 
 ---
 
-## ⚠️ Don't Do This
 
-- ❌ Don't run `./download-lib.sh` on the G1 — it fails and **deletes** the library folder.
-- ❌ Don't use `/dev/ttyACM*` ports — they don't work with the hands.
-- ❌ Don't use `/dev/ttyCH343USB2` — it's not a hand.
-
----
 
 ## easy mode(all-in-one script)
 
@@ -177,5 +139,16 @@ If the driver folder is already in `tools/` :
 cd ~/brainco-hand-sdk
 ./tools/setup_g1_hand.sh
 ```
-
 Then unplug/replug the hand, log out/in, and jump to **Step 6**.
+
+#you can download the driver seperately from the link below
+
+```bash
+cd ~/brainco-hand-driver-sdk/tools
+git clone https://github.com/WCHSoftGroup/ch343ser_linux.git
+
+cd ch343ser_linux/driver
+make
+```
+
+
