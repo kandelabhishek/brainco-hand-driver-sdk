@@ -23,7 +23,7 @@ cd ~/brainco-hand-driver-sdk/tools/ch343ser_linux/driver
 make
 ```
 
-If you dont have gcc if it shows that its missing
+If you dont have gcc /if it shows that its missing
 
 ```
 sudo apt update && sudo apt install build-essential -y

@@ -8,7 +8,7 @@ nmcli connection show
 # Turn off the hotspot
 
 ```
-sudo nmcli connection down "Hotspot_Name"
+sudo nmcli connection down "Hotspot-Name"
 
 ```
 
@@ -22,7 +22,7 @@ nmcli device wifi list
 
 #connect to the wifi 
 ```
-nmcli device wifi connect {WIFI_NAME} password {PASSWORD}
+sudo nmcli device wifi connect {WIFI_NAME} password {PASSWORD}
 ```
 
 ###⚠️Note:The G1 cannot connect to WPA3. So, the wifi must be WPA2. 
