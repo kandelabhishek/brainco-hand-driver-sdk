@@ -92,6 +92,8 @@ sudo ./hand_demo.exe -m <PORT> 460800 <ID> <DEMO>
 ### Most useful commands
 
 ```bash
+cd ~/brainco-hand-driver-sdk/c/demo
+
 # Left hand
 sudo ./hand_demo.exe -m /dev/ttyCH343USB0 460800 126 0
 
