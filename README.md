@@ -1,4 +1,4 @@
-# 🤖 BrainCo Hand on Unitree G1 — Easy Setup Guide
+# 🤖 Camera attached BrainCo Hand on Unitree G1 
 ---
 
 | Without the driver ❌ | With the driver ✅ |
