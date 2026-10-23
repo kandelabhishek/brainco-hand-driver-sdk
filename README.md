@@ -23,7 +23,7 @@ cd ~/brainco-hand-driver-sdk/tools/ch343ser_linux/driver
 make
 ```
 
-If you dont have gcc /if it shows that its missing
+> If you dont have gcc /if it shows that its missing
 
 ```
 sudo apt update && sudo apt install build-essential -y
@@ -47,7 +47,7 @@ sudo make install
 ls /dev/ttyCH343USB*
 ```
 
-✅ You should see:
+>✅ You should see:
 
 ```
 /dev/ttyCH343USB0  /dev/ttyCH343USB1  /dev/ttyCH343USB2
@@ -72,7 +72,7 @@ make
 
 ## Step 6 — Find which port is which hand
 
-Usually:
+>Usually:
 
 | Hand | Port | ID |
 |---|---|---|
@@ -104,7 +104,7 @@ sudo ./hand_demo.exe -m /dev/ttyCH343USB1 460800 127 0
 
 | Number | What happens |
 |---|---|
-| *(nothing)* | Runs all demos |
+| `0` | Runs all demos |
 | `1` | Make a fist, open hand, move one finger |
 | `2` | Speed and force control |
 | `3` | Advanced movements |
